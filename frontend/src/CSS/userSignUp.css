@@ -1,0 +1,9 @@
+.fullname{
+    display: flex;
+    gap: 10px;
+}
+
+.terms{
+    margin-top: 250px;
+    font-size: 12px;
+}

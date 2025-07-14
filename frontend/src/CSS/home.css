@@ -1,0 +1,39 @@
+.home-box{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-image: url("../assets/images/mainImage.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.home-logo img{
+    width: 150px;
+}
+.home-bottom{
+    padding-bottom: 5%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.home-bottom h1{
+    display: flex;
+    justify-content: space-around;
+}
+.home-continue{
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    width: 50%;
+    margin: auto;
+    background: black;
+    color: white;
+    font-weight: 500;
+    height: 40px;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 10px;
+}

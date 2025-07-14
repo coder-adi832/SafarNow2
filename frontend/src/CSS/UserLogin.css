@@ -1,0 +1,48 @@
+.login{
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.login-user form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.login-user form input{
+    height: 30px;
+    padding-left: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: rgb(223, 226, 229);
+    width: 75%;
+    /* margin-left: auto; */
+    margin-right: auto ;
+}
+.login-user form button{
+    margin-top: 20px;
+    height: 40px;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto ;
+    padding-left: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: rgb(223, 226, 229);
+}
+.login-driver{
+    margin-top: 20px;
+    height: 40px;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto ;
+    padding-left: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: rgb(223, 226, 229);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}

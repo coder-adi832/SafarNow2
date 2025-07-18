@@ -9,6 +9,9 @@ import SelectedRide from '../components/SelectedRide'
 import WaitForDriver from '../components/WaitForDriver'
 import SearchingRide from '../components/SearchingRide'
 import axios from 'axios'
+import { SocketContext } from '../context/SocketContext'
+import { useContext } from 'react'
+import { UserDataContext } from '../context/UserContext'
 
 const MainPage = () => {
   const [pickup, setpickup] = useState('')
@@ -25,14 +28,64 @@ const MainPage = () => {
   const waitForDriverRef = useRef(null)
   const [searchField, setSearchField] = useState(null); 
   const [suggestions, setSuggestions] = useState([]);
+  const [fare, setfare] = useState([])
+  const [transportType, settransportType] = useState('')
+  const [booknow, setbooknow] = useState(false)
+  const [otp, setotp] = useState('11111')
 
-  const submitHandler = (e) => {
+
+  const {user} = useContext(UserDataContext)
+  const socket = useContext(SocketContext)
+
+  useEffect(()=>{
+    console.log(user)
+    socket.emit("join", {userType: 'user', userId: user._id})
+  },[user])
+
+  const submitHandler = async (e) => {
     e.preventDefault()
+
     if(pickup && destination){
+
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/getFare`, {
+      params: {pickup, destination},
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      setfare(res.data)
+
       setopen(false)
       setvehiclePanel(true)
     }
   }
+  
+
+  useEffect(() => {
+  if (booknow) {
+    const bookRide = async () => {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+          pickup,
+          destination,
+          transportType
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const data = response.data
+        setotp(data.otp)
+        setbooknow(false);
+      } catch (error) {
+        console.error(error);
+        setbooknow(false);
+      }
+    };
+    bookRide();
+  }
+}, [booknow]);
 
   useEffect(() => {
     if (open) {
@@ -212,20 +265,20 @@ const MainPage = () => {
       </div>
 
       <div ref={vehiclePanelRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <VehiclePanel setselectedVehicle = {setselectedVehicle} setvehiclePanel = {setvehiclePanel} setopen = {setopen}/>
+          <VehiclePanel settransportType= {settransportType} setselectedVehicle = {setselectedVehicle} setvehiclePanel = {setvehiclePanel} setopen = {setopen} fare = {fare}/>
       </div>
 
       <div ref={selectedVehicleRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <SelectedRide setvehiclePanel = {setvehiclePanel} setselectedVehicle = {setselectedVehicle} setsearchingRide = {setsearchingRide}/>
+          <SelectedRide setbooknow = {setbooknow}  transportType = {transportType} setvehiclePanel = {setvehiclePanel} setselectedVehicle = {setselectedVehicle} setsearchingRide = {setsearchingRide} pickup = {pickup} destination = {destination} fare = {fare}/>
       </div>
       
       <div ref={searchingRideRef}  className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <SearchingRide setsearchingRide = {setsearchingRide} setwaitForDriver = {setwaitForDriver}/>
+          <SearchingRide  setsearchingRide = {setsearchingRide} setwaitForDriver = {setwaitForDriver}/>
       </div>
 
 
       <div ref={waitForDriverRef}  className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <WaitForDriver/>
+          <WaitForDriver otp = {otp} setwaitForDriver = {setwaitForDriver}/>
       </div>
 
 

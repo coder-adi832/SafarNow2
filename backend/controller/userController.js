@@ -64,11 +64,14 @@ module.exports.getUserProfile = async (request,response,next) => {
 
 
 module.exports.logoutUser = async ( request, response, next) =>{
-    
     const token = request.cookies.token || request.headers.authorization.split(' ')[1];
-    
-    response.clearCookie('token')
-    await deletedTokens.create({ token })
-
+    response.clearCookie('token');
+    try {
+        await deletedTokens.create({ token });
+    } catch (err) {
+        if (err.code !== 11000) {
+            throw err;
+        }
+    }
     response.status(200).json({message: 'Successfully logged out'})
 }

@@ -27,7 +27,7 @@ const DriverLogin = () => {
         const data = response.data
         setdriver(data.driver)
         localStorage.setItem('token', data.token)
-        console.log(data.token)
+        // console.log(data.token)
         navigate('/driver-mainPage')
       }
 

@@ -7,6 +7,10 @@ import RidePopUp from '../components/RidePopUp'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import OtpRidePopUp from '../components/OtpRidePopUp'
+import { SocketContext } from '../context/SocketContext'
+import { useContext } from 'react'
+import { DriverDataContext } from '../context/DriverContext'
+import { useEffect } from 'react'
 
 
 const DriverHome = () => {
@@ -17,6 +21,16 @@ const DriverHome = () => {
   const [otp, setotp] = useState(false)
   const otpRef = useRef(null)
 
+
+    const {driver} = useContext(DriverDataContext)
+    const socket = useContext(SocketContext)
+  
+    useEffect(()=>{
+      // console.log(driver.socketId)
+      socket.emit("join", {userType: 'driver', userId: driver._id})
+    },[driver])
+  
+  
   useGSAP(() => {
     if (ridePopUp) {
       gsap.to(ridePopUpRef.current, {

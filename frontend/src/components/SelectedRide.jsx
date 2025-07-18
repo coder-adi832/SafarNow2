@@ -16,27 +16,25 @@ const SelectedRide = (props) => {
             <div className='flex w-full gap-4 items-center border-b-2 border-[#DDE2E3] p-2'>
                 <img src={pin} alt="" />
                 <div>
-                    <h3>562/110-A</h3>
-                    <p>Kankariya Jheel, Ahmedabad</p>
+                    <p>{props.pickup}</p>
                 </div>
             </div>
             <div className='flex w-full gap-4 items-center  border-b-2 border-[#DDE2E3] p-2'>
                 <img src={pin} alt="" />
                 <div>
-                    <h3>562/110-A</h3>
-                    <p>Kankariya Jheel, Ahmedabad</p>
+                    <p>{props.destination}</p>
                 </div>
             </div>
             <div className='flex w-full gap-4 items-center px-2'>
                 <img src={money} alt="" />
                 <div>
-                    <h3>Rs 500</h3>
+                    <h3>&#8377;{props.fare[props.transportType]}</h3>
                     <p>Cash</p>
                 </div>
             </div>
         </div>
         <div className='w-full flex justify-around mt-2'>
-            <button onClick={()=>{props.setsearchingRide(true); props.setselectedVehicle(false); props.setvehiclePanel(false)} } className='w-[75%] h-10 bg-green-500 text-white font-semibold rounded-2xl text-xl'>Confirm</button>
+            <button onClick={()=>{props.setbooknow(true); props.setsearchingRide(true); props.setselectedVehicle(false); props.setvehiclePanel(false)} } className='w-[75%] h-10 bg-green-500 text-white font-semibold rounded-2xl text-xl'>Confirm</button>
         </div>
     </div>
   )

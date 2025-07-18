@@ -40,6 +40,8 @@ async function calculateFare(pickup, destination){
     return fares;
 } 
 
+module.exports.getFare = calculateFare
+
 function generateOTP(num){
     const min = Math.pow(10, num - 1);
     const max = Math.pow(10, num) - 1;

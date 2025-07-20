@@ -12,29 +12,29 @@ const WaitForDriver = (props) => {
                         <img className='h-20' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_538,w_956/v1688398971/assets/29/fbb8b0-75b1-4e2a-8533-3a364e7042fa/original/UberSelect-White.png" alt="" />
                       </div>
                       <div>
-                        <div><h2>driverABC</h2></div>
-                        <div><h4>GJDSG 5362</h4></div>
-                        <div><p>maruti suzuki 800</p></div>
+                        <div><h2>{props.rideInfo?.driverId.fullname.firstname + " " + props.rideInfo?.driverId.fullname.lastname}</h2></div>
+                        <div><h4>{props.rideInfo?.driverId.carInfo.numberPlate}</h4></div>
+                        <div><p>{props.rideInfo?.driverId.carInfo.transportType + " " + props.rideInfo?.driverId.carInfo.numberOfSeats}</p></div>
                       </div>
                     </div>
                     <div className='flex w-full gap-4 items-center border-b-2 border-[#DDE2E3] p-2'>
                         <img src={pin} alt="" />
                         <div>
-                            <h3>562/110-A</h3>
-                            <p>Kankariya Jheel, Ahmedabad</p>
+                            <h3>562/110-3</h3>
+                            <p>{props.rideInfo?.pickup}</p>
                         </div>
                     </div>
                     <div className='flex w-full gap-4 items-center  border-b-2 border-[#DDE2E3] p-2'>
                         <img src={pin} alt="" />
                         <div>
                             <h3>562/110-A</h3>
-                            <p>Kankariya Jheel, Ahmedabad</p>
+                            <p>{props.rideInfo?.destination}</p>
                         </div>
                     </div>
                     <div className='flex w-full gap-4 items-center border-b-2 border-[#DDE2E3] p-2'>
                         <img src={money} alt="" />
                         <div>
-                            <h3>Rs 500</h3>
+                            <h3>{props.rideInfo?.fare}</h3>
                             <p>Cash</p>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ const WaitForDriver = (props) => {
                         <img src={money} alt="" />
                         <div>
                             <h3>OTP</h3>
-                            <p>{props.otp}</p>
+                            <p>{props.rideInfo?.otp}</p>
                         </div>
                     </div>
                 </div>

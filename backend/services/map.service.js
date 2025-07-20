@@ -1,4 +1,6 @@
 const axios = require('axios');
+const driverModel = require('../models/driverModel')
+
 
 module.exports.getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGLE_MAP_API 
@@ -59,4 +61,17 @@ module.exports.getSuggestion = async (input) => {
         console.log(err)
         throw err
     }
+}
+
+module.exports.getDriverNearUser = async (latitude, longitude, radius) => {
+
+    const drivers = await driverModel.find({
+        location:{
+            $geoWithin: {
+                $centerSphere : [ [longitude, latitude], radius/ 3963.2]
+            }
+        }
+    })
+    
+    return drivers
 }

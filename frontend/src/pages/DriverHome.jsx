@@ -11,26 +11,71 @@ import { SocketContext } from '../context/SocketContext'
 import { useContext } from 'react'
 import { DriverDataContext } from '../context/DriverContext'
 import { useEffect } from 'react'
-
+import axios from 'axios'
 
 const DriverHome = () => {
 
-  const [ridePopUp, setridePopUp] = useState(true)
+  const [ridePopUp, setridePopUp] = useState(false)
   const ridePopUpRef = useRef(null)
 
   const [otp, setotp] = useState(false)
   const otpRef = useRef(null)
-
+    const [newRide, setnewRide] = useState(null)
 
     const {driver} = useContext(DriverDataContext)
     const socket = useContext(SocketContext)
-  
     useEffect(()=>{
-      // console.log(driver.socketId)
+      console.log(driver.socketId)
       socket.emit("join", {userType: 'driver', userId: driver._id})
+      const intervalId = setInterval(() => {
+        // console.log(driver)
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+  
+      socket.emit("update-driver-location", {
+        userId: driver._id,
+        location: {
+        type: "Point",
+        coordinates: [position.coords.longitude, position.coords.latitude]
+      }
+    });
+});
+        }
+      }, 10000);
+
+      return () => clearInterval(intervalId);
     },[driver])
+    
+    useEffect(() => {
+      const handleNewRide = (data) => {
+      console.log('Received new-ride:', data);
+      setnewRide(data)
+      setridePopUp(true)
+    };
+
+    socket.on('new-ride', handleNewRide);
+
+    return () => {
+    socket.off('new-ride', handleNewRide);
+      };
+    }, [socket]);
   
-  
+    
+    async function confirmRide(){
+      
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{
+          rideId: newRide._id,
+          driverId: driver._id,
+          
+          
+      }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+      })
+      
+      console.log(response)
+    }
   useGSAP(() => {
     if (ridePopUp) {
       gsap.to(ridePopUpRef.current, {
@@ -81,10 +126,10 @@ const DriverHome = () => {
       </div>
       
       <div ref={ridePopUpRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <RidePopUp setridePopUp = {setridePopUp} setotp = {setotp}/>
+          <RidePopUp confirmRide= {confirmRide} ride = {newRide} setridePopUp = {setridePopUp} setotp = {setotp}/>
       </div>
       <div ref={otpRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <OtpRidePopUp/>
+          <OtpRidePopUp ride = {newRide}/>
       </div>
     </div>
   )

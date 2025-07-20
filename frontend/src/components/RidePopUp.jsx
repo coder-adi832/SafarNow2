@@ -9,7 +9,7 @@ const RidePopUp = (props) => {
             <div className='w-full flex justify-between mb-2'>
               <div className='flex items-center gap-2'>
                 <img className='w-16 rounded-full' src="https://i.pinimg.com/736x/14/ea/70/14ea703845497d3a1dad42dee45bfe6e.jpg" alt="" />
-                <h1>Rider ABC</h1>
+                <h1>{props.ride?.userId.fullname.firstname + " " + props.ride?.userId.fullname.lastname}</h1>
               </div>
               <div className='flex flex-col justify-around p-2'>
                 <h2>2.2Km</h2>
@@ -21,26 +21,26 @@ const RidePopUp = (props) => {
                     <img src={pin} alt="" />
                     <div>
                         <h3>562/110-A</h3>
-                        <p>Kankariya Jheel, Ahmedabad</p>
+                        <p>{props.ride?.pickup}</p>
                     </div>
                 </div>
                 <div className='flex w-full gap-4 items-center  border-b-2 border-[#DDE2E3] p-2'>
                     <img src={pin} alt="" />
                     <div>
                         <h3>562/110-A</h3>
-                        <p>Kankariya Jheel, Ahmedabad</p>
+                        <p>{props.ride?.destination}</p>
                     </div>
                 </div>
                 <div className='flex w-full gap-4 items-center px-2'>
                     <img src={money} alt="" />
                     <div>
-                        <h3>Rs 500</h3>
+                        <h3>{props.ride?.fare}</h3>
                         <p>Cash</p>
                     </div>
                 </div>
             </div>
             <div className='w-full flex justify-around my-4'>
-                <button onClick={()=>{props.setotp(true); props.setridePopUp(false)}} className='w-[75%] h-10 bg-green-500 text-white font-semibold rounded-2xl text-xl flex justify-around items-center'>Confirm</button>
+                <button onClick={()=>{props.setotp(true); props.setridePopUp(false); props.confirmRide()}} className='w-[75%] h-10 bg-green-500 text-white font-semibold rounded-2xl text-xl flex justify-around items-center'>Confirm</button>
                 <button onClick={()=>{props.setridePopUp(false)}} className='w-[75%] h-10 bg-red-500 text-white font-semibold rounded-2xl text-xl'>Cancel</button>
             </div>
         </div>

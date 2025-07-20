@@ -12,6 +12,7 @@ import axios from 'axios'
 import { SocketContext } from '../context/SocketContext'
 import { useContext } from 'react'
 import { UserDataContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 const MainPage = () => {
   const [pickup, setpickup] = useState('')
@@ -32,15 +33,44 @@ const MainPage = () => {
   const [transportType, settransportType] = useState('')
   const [booknow, setbooknow] = useState(false)
   const [otp, setotp] = useState('11111')
-
+  const [rideInfo, setrideInfo] = useState(null)
 
   const {user} = useContext(UserDataContext)
   const socket = useContext(SocketContext)
 
+  const navigate = useNavigate()
+  
   useEffect(()=>{
-    console.log(user)
+    // console.log(user)
     socket.emit("join", {userType: 'user', userId: user._id})
-  },[user])
+  },)
+
+ useEffect(() => {
+  const handleConfirmRide = ( ride ) => {
+    console.log("Received confirm-ride!", ride);
+    setrideInfo(ride);
+    setsearchingRide(false);
+    setwaitForDriver(true);
+  };
+
+  socket.on('confirm-ride', handleConfirmRide);
+
+  return () => {
+    socket.off('confirm-ride', handleConfirmRide);
+  };
+},);
+
+    useEffect(() => {
+    socket.on("otp-confirmed", (data) => {
+      console.log("OTP confirmed!", data);
+      navigate('/driver-riding'); 
+    });
+
+    return () => {
+      socket.off("otp-confirmed");
+    };
+  }, []);
+
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -278,7 +308,7 @@ const MainPage = () => {
 
 
       <div ref={waitForDriverRef}  className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <WaitForDriver otp = {otp} setwaitForDriver = {setwaitForDriver}/>
+          <WaitForDriver rideInfo = {rideInfo} otp = {otp} setwaitForDriver = {setwaitForDriver}/>
       </div>
 
 

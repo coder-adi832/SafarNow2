@@ -35,12 +35,30 @@ function initializeSocket(server) {
             console.log('User disconnected:', socket.id);
         });
 
+
+        socket.on('update-driver-location', async(data) => {
+  const { userId, location } = data;
+  if (!location || !location.coordinates) {
+    return socket.emit('Invalid location details');
+  }
+  try {
+    await driverModel.findByIdAndUpdate(userId, {
+      location: location
     });
+  } catch (err) {
+    console.error('Error updating driver location:', err);
+  }
+});
+    });
+
+
 }
 
-function sendMessageToSocket(socketId, message) {
+function sendMessageToSocket(socketId, messageObject) {
     if (io) {
-        io.to(socketId).emit('message',message);
+        // console.log(messageObject.event)
+        // console.log(messageObject.data)
+        io.to(socketId).emit(messageObject.event,messageObject.data);
     }
     else{
         console.log('socket.io is not initialized')

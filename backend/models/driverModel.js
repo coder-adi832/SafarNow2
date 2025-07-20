@@ -59,13 +59,9 @@ const driverModel = new mongoose.Schema({
     },
 
     location: {
-        latitude:{
-            type: Number,
-        },
-        longitude:{
-            type: Number,
-        }
-    }
+        type: { type: String, enum: ['Point'], default: 'Point' },
+        coordinates: { type: [Number], default: [0, 0] }
+}
 })
 
 driverModel.methods.generateAuthToken = function () {
@@ -80,6 +76,9 @@ driverModel.methods.comparePassword = async function (password) {
 driverModel.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10)
 }
+
+driverModel.index({ location: "2dsphere" });
+
 
 module.exports = mongoose.model('driver', driverModel)
 

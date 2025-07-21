@@ -96,3 +96,39 @@ module.exports.confirmRide = async({
     }
     return ride
 }
+
+module.exports.confirmOtp = async ({ rideId, otp }) => {
+  if (!rideId || !otp) {
+    throw new Error('rideId and otp are required');
+  }
+
+  const ride = await rideModel.findById(rideId).populate('userId').populate('driverId');
+  if (!ride) {
+    throw new Error('Ride not found');
+  }
+
+  if (ride.otp !== otp) {
+    throw new Error('Invalid OTP');
+  }
+
+  ride.status = 'ongoing';
+  await ride.save();
+
+  return ride;
+};
+
+module.exports.finishRide = async ({ rideId }) => {
+  if (!rideId) {
+    throw new Error('rideId is required');
+  }
+
+  const ride = await rideModel.findById(rideId).populate('userId').populate('driverId');
+  if (!ride) {
+    throw new Error('Ride not found');
+  }
+
+  ride.status = 'completed';
+  await ride.save();
+
+  return ride;
+};

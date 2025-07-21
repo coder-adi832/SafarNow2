@@ -9,22 +9,30 @@ const OtpRidePopUp = (props) => {
   const navigate = useNavigate()
 
   const submitHandler = async (e) => {
-    e.preventDefault()
+  e.preventDefault();
 
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm-otp`, {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm-otp`,
+      {
         rideId: props.ride._id,
         otp: otp
-      })
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    );
 
-      console.log('OTP confirmed:', res.data)
-
-      navigate('/driver-riding')
-    } catch (err) {
-      console.error('Error confirming OTP:', err)
-      alert('Invalid OTP or server error. Please try again.')
-    }
+    console.log('OTP confirmed:', res.data.ride);
+    navigate('/driver-riding', { state: { ride: res.data.ride } });
+  } catch (err) {
+    console.error('Error confirming OTP:', err);
+    alert('Invalid OTP or server error. Please try again.');
   }
+};
+
 
   return (
     <div className='p-4 w-full'>

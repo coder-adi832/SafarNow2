@@ -3,7 +3,6 @@ const mapService = require('../services/map.service')
 const rideModel = require('../models/rideModel')
 const { validationResult } = require('express-validator')
 const { sendMessageToSocket } = require('../socket')
-const userModel = require('../models/user.model');
 
 module.exports.createRide = async (request,response,next) => {
     const err = validationResult(request)
@@ -81,42 +80,63 @@ module.exports.getFare = async (request, response, next) => {
 }
 
 
-exports.confirmOtp = async (req, res) => {
-  const { rideId, otp } = req.body;
-
-  if (!rideId || !otp) {
-    return res.status(400).json({ error: "rideId and otp are required." });
+module.exports.confirmOtp = async (req, res, next) => {
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return res.status(400).json({ error: err.array() });
   }
 
+  const { rideId, otp } = req.body;
+
   try {
-    const ride = await rideModel.findById(rideId).populate('userId');
-    if (!ride) {
-      return res.status(404).json({ error: "Ride not found." });
-    }
+    const ride = await rideService.confirmOtp({ rideId, otp });
 
-    if (ride.otp !== otp) {
-      return res.status(400).json({ error: "Invalid OTP." });
-    }
-
-    ride.status = 'ongoing';
-    await ride.save();
-
-    const user = await userModel.findById(ride.userId);
-    const userSocketId = user?.socketId;
-
+    const userSocketId = ride.userId?.socketId;
     if (userSocketId) {
       sendMessageToSocket(userSocketId, {
         event: 'otp-confirmed',
-        data: { rideId: ride._id }
+        data: { ride: ride }
       });
     } else {
       console.log("User socket ID not found");
     }
 
-    return res.status(200).json({ message: "OTP confirmed and user notified." });
+    return res.status(200).json({ message: "OTP confirmed and user notified.", ride : ride });
 
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Server error." });
+    next(err);
+  }
+};
+
+module.exports.finishRide = async (req, res, next) => {
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return res.status(400).json({ error: err.array() });
+  }
+
+  const { rideId } = req.body;
+
+  try {
+    const ride = await rideService.finishRide({ rideId });
+
+    const userSocketId = ride.userId?.socketId;
+    if (userSocketId) {
+      sendMessageToSocket(userSocketId, {
+        event: 'ride-finished',
+        data: { ride: ride }
+      });
+    } else {
+      console.log("User socket ID not found");
+    }
+
+    return res.status(200).json({
+      message: "Ride finished and user notified.",
+      ride: ride
+    });
+
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 };

@@ -12,8 +12,8 @@ import axios from 'axios'
 import { SocketContext } from '../context/SocketContext'
 import { useContext } from 'react'
 import { UserDataContext } from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
-
+import { Link, useNavigate } from 'react-router-dom'
+import logout from '../assets/images/logout.png'
 const MainPage = () => {
   const [pickup, setpickup] = useState('')
   const [destination, setdestination] = useState('')
@@ -63,7 +63,7 @@ const MainPage = () => {
     useEffect(() => {
     socket.on("otp-confirmed", (data) => {
       console.log("OTP confirmed!", data);
-      navigate('/driver-riding'); 
+      navigate('/user-riding',  { state: { ride: data.ride } }); 
     });
 
     return () => {
@@ -231,6 +231,9 @@ const MainPage = () => {
 
   return (
     <div className='h-screen w-screen relative overflow-hidden'>
+      <Link to = '/user/logout'>
+      <img className=' absolute top-5 right-5' src={logout} alt="" />
+      </Link>
       <img className='w-16 absolute top-5 left-5' src={logo} alt="" />
 
       <div className='h-screen w-screen'>

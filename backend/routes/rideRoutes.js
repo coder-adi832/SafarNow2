@@ -27,5 +27,10 @@ router.post('/confirm',
 
 router.post('/confirm-otp', rideController.confirmOtp);
 
+router.post('/finish-ride',
+    authMiddleware.authDriver,
+    body('rideId').isMongoId().withMessage('Invalid rideId'),
+    rideController.finishRide);
+
 
 module.exports  = router;

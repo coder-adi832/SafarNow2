@@ -16,12 +16,14 @@ const SelectedRide = (props) => {
             <div className='flex w-full gap-4 items-center border-b-2 border-[#DDE2E3] p-2'>
                 <img src={pin} alt="" />
                 <div>
+                    <h3>Pickup</h3>
                     <p>{props.pickup}</p>
                 </div>
             </div>
             <div className='flex w-full gap-4 items-center  border-b-2 border-[#DDE2E3] p-2'>
                 <img src={pin} alt="" />
                 <div>
+                    <h3>Destination</h3>
                     <p>{props.destination}</p>
                 </div>
             </div>

@@ -42,14 +42,14 @@ const FinishRideDriver = (props) => {
                         <div className='flex w-full gap-4 items-center border-b-2 border-[#DDE2E3] p-2'>
                             <img src={pin} alt="" />
                             <div>
-                                <h3>562/110-A</h3>
+                                <h3>Pickup</h3>
                                 <p>{props.ride?.pickup}</p>
                             </div>
                         </div>
                         <div className='flex w-full gap-4 items-center  border-b-2 border-[#DDE2E3] p-2'>
                             <img src={pin} alt="" />
                             <div>
-                                <h3>562/110-A</h3>
+                                <h3>Destination</h3>
                                 <p>{props.ride?.destination}</p>
                             </div>
                         </div>

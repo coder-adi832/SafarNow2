@@ -128,7 +128,7 @@ const DriverHome = () => {
       <div ref={ridePopUpRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
           <RidePopUp confirmRide= {confirmRide} ride = {newRide} setridePopUp = {setridePopUp} setotp = {setotp}/>
       </div>
-      <div ref={otpRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
+      <div ref={otpRef} className='fixed w-full p-3 z-5 bottom-0 bg-white'>
           <OtpRidePopUp ride = {newRide}/>
       </div>
     </div>

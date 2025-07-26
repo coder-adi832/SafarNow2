@@ -171,7 +171,7 @@ const MainPage = () => {
   useGSAP(() => {
     if (searchingRide) {
       gsap.to(searchingRideRef.current, {
-        transform:'translateY(0)',
+        transform:'translateY(0%)',
         duration: 0.5,
         ease: 'power2.out'
       })
@@ -231,8 +231,8 @@ const MainPage = () => {
 
   return (
     <div className='h-screen w-screen relative overflow-hidden'>
-      <Link to = '/user/logout'>
-      <img className=' absolute top-5 right-5' src={logout} alt="" />
+      <Link to = '/user/logout' className='absolute top-5 right-5 z-5'>
+      <img className='' src={logout} alt="" />
       </Link>
       <img className='w-16 absolute top-5 left-5' src={logo} alt="" />
 
@@ -305,8 +305,8 @@ const MainPage = () => {
           <SelectedRide setbooknow = {setbooknow}  transportType = {transportType} setvehiclePanel = {setvehiclePanel} setselectedVehicle = {setselectedVehicle} setsearchingRide = {setsearchingRide} pickup = {pickup} destination = {destination} fare = {fare}/>
       </div>
       
-      <div ref={searchingRideRef}  className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-          <SearchingRide  setsearchingRide = {setsearchingRide} setwaitForDriver = {setwaitForDriver}/>
+      <div ref={searchingRideRef}  className='fixed w-full p-3 z-5 bottom-0 bg-white'>
+          <SearchingRide  setsearchingRide = {setsearchingRide}  transportType = {transportType} setwaitForDriver = {setwaitForDriver} pickup = {pickup} destination = {destination} fare = {fare}/>
       </div>
 
 

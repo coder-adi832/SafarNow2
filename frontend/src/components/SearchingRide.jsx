@@ -11,28 +11,27 @@ const SearchingRide = (props) => {
                     <div className='flex w-full gap-4 items-center border-b-2 border-[#DDE2E3] p-2'>
                         <img src={pin} alt="" />
                         <div>
-                            <h3>562/110-A</h3>
-                            <p>Kankariya Jheel, Ahmedabad</p>
+                            <h3>Pickup</h3>
+                            <p>{props.pickup}</p>
                         </div>
                     </div>
                     <div className='flex w-full gap-4 items-center  border-b-2 border-[#DDE2E3] p-2'>
                         <img src={pin} alt="" />
                         <div>
-                            <h3>562/110-A</h3>
-                            <p>Kankariya Jheel, Ahmedabad</p>
+                            <h3>Destination</h3>
+                            <p>{props.destination}</p>
                         </div>
                     </div>
                     <div className='flex w-full gap-4 items-center px-2'>
                         <img src={money} alt="" />
                         <div>
-                            <h3>Rs 500</h3>
+                            <h3>{props.fare[props.transportType]}</h3>
                             <p>Cash</p>
                         </div>
                     </div>
                 </div>
                 <div className='w-full flex justify-around mt-2'>
             <button onClick={()=>{props.setsearchingRide(false)}} className='w-[75%] h-10 bg-red-500 text-white font-semibold rounded-2xl text-xl'>Cancel Ride</button>
-            <button onClick={()=>{props.setsearchingRide(false); props.setwaitForDriver(true)}} className='w-[75%] h-10 bg-red-500 text-white font-semibold rounded-2xl text-xl'>dummy</button>
         </div>
     </div>
   )

@@ -43,7 +43,7 @@ const DriverRiding = () => {
         <LiveTracking/>
       </div>
 
-        <div className='h-[15%] w-full absolute bottom-0 bg-amber-300'>
+        <div className='h-[15%] w-full absolute bottom-0 bg-amber-300 '>
             <div onClick={()=>{setfinishPanel(true)}} className='flex justify-around'>
                 <img className='w-8' src={arrowup} alt="" />
             </div>

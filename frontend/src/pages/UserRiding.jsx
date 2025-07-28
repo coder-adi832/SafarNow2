@@ -64,7 +64,7 @@ const UserRiding = () => {
 
 
         <div ref={completeRidepanelRef} className='fixed w-full p-3 z-10 bottom-0 bg-white'>
-            <CompleteRide ride = {ride}/>
+            <CompleteRide ride = {ride} setcompleteRidepanel = {setcompleteRidepanel}/>
       </div>
     </div>
   )

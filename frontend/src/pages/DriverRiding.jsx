@@ -40,7 +40,7 @@ const DriverRiding = () => {
       <img className=' absolute top-5 right-5' src={logout} alt="" />
       </Link>
       <div className='h-[85%] w-full z-5 relative'>
-        <LiveTracking/>
+        <LiveTracking destination={ride?.destination}/>
       </div>
 
         <div className='h-[15%] w-full absolute bottom-0 bg-amber-300 '>

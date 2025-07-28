@@ -2,9 +2,13 @@ import React from 'react'
 import pin from '../assets/images/location.png'
 import money from '../assets/images/money.png'
 import { Link, useNavigate } from 'react-router-dom'
+import arrowdown from '../assets/images/arrow-down-line.png'
 const CompleteRide = (props) => {
   return (
           <div className='p-4 w-full'>
+                        <div onClick={()=>{props.setcompleteRidepanel(false)}} className='flex justify-around'>
+                                                    <img className='w-8' src={arrowdown} alt="" />
+                                                </div>
                       <h3 className='text-2xl font-semibold mb-5 text-center w-full' >Finish Ride</h3>
                       <div className='w-full flex justify-between mb-2'>
                         <div className='flex items-center gap-2'>

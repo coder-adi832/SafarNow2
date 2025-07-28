@@ -126,9 +126,9 @@ const DriverSignup = () => {
     className="px-4 py-2 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
   >
     <option value="" disabled>Select vehicle type</option>
-    <option value="Car">car</option>
-    <option value="Auto">auto</option>
-    <option value="Bike">bike</option>
+    <option value="car">car</option>
+    <option value="auto">auto</option>
+    <option value="bike">bike</option>
   </select>
   <input
     type="number"
